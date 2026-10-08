@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Command Center</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f7f6; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 30px; }
+        h1 { color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
+        h2, h3 { color: #007bff; }
+        
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; background: white; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background-color: #007bff; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+
+        /* Button Styling */
+        .btn-predict { background: #28a745; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold; }
+        .btn-predict:hover { background: #218838; }
+        .logout-link { float: right; color: #dc3545; text-decoration: none; font-weight: bold; }
+        
+        /* Alert List Styling */
+        .alert-item { padding: 10px; border-left: 5px solid #dc3545; background: #fff5f5; margin-bottom: 5px; list-style: none; }
+    </style>
+</head>
+<body>
+
+    <a href="{% url 'admin_logout' %}" class="logout-link">Logout</a>
+    <h1>🌍 Disaster Command Center</h1>
+
+    <div class="card">
+        <h2>Step 1: AI Prediction Control</h2>
+        <p>Current Data Source: <b>disaster_data.csv</b></p>
+        <p><small>Clicking the button below will analyze weather data (Rainfall, Wind Speed, Water Levels) and automatically notify users if a threat is detected.</small></p>
+        
+        <form action="{% url 'run_prediction' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn-predict">
+                🚀 Run Machine Learning Prediction
+            </button>
+        </form>
+
+        {% if messages %}
+            <div style="margin-top: 15px;">
+                {% for message in messages %}
+                    <div style="padding: 10px; color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px;">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div style="display: flex; gap: 20px;">
+        <div class="card" style="flex: 2;">
+            <h3>Registered Viewers (Citizens)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Location</th>
+                        <th>Joined</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for v in viewers %}
+                    <tr>
+                        <td>{{ v.name }}</td>
+                        <td>{{ v.email }}</td>
+                        <td>{{ v.location }}</td>
+                        <td>{{ v.created_at|date:"M d, Y" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="4">No users registered yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card" style="flex: 1;">
+            <h3>History of Alerts Sent</h3>
+            <ul style="padding: 0;">
+                {% for alert in alerts %}
+                    <li class="alert-item">
+                        <strong>{{ alert.disaster_type }}</strong><br>
+                        <small>{{ alert.created_at|timesince }} ago</small>
+                    </li>
+                {% empty %}
+                    <p>No alerts issued yet.</p>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</body>
+</html>

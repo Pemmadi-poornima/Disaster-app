@@ -1,0 +1,12 @@
+rainfall,wind_speed,water_level,label
+10,15,1.2,Normal
+95,20,4.5,Flood
+20,130,3.0,Cyclone
+15,35,15.5,Tsunami
+85,10,5.2,Flood
+12,110,2.1,Cyclone
+10,20,1.5,Normal
+85,15,4.2,Flood
+20,120,2.0,Cyclone
+5,40,12.5,Tsunami
+15,25,1.2,Normal

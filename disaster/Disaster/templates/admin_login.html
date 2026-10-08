@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Portal</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #343a40; color: white; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .admin-box { background: #fff; color: #333; padding: 40px; border-radius: 10px; text-align: center; width: 320px; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 5px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="admin-box">
+        <h2 style="color: #007bff;">Admin Secure Access</h2>
+        <form method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Admin Username" required>
+            <input type="password" name="password" placeholder="Admin Password" required>
+            <button type="submit">Enter Command Center</button>
+        </form>
+        <p><a href="{% url 'home' %}" style="color: #666;">Back to Home</a></p>
+    </div>
+</body>
+</html>
